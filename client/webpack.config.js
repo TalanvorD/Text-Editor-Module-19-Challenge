@@ -26,7 +26,7 @@ module.exports = () => {
       new WebpackPwaManifest({ // PWA Install module
         name: 'Just Another Text Editor',
         short_name: 'J.A.T.E',
-        description: 'Just Another Text Editor - Edit Text in Javascript, stored locally!',
+        description: 'Just Another Text Editor - Edit text in Javascript, stored locally!',
         background_color: '#225ca3',
         theme_color: '#225ca3', 
         start_url: '/',
