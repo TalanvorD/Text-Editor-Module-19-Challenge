@@ -4,6 +4,7 @@ const { registerRoute } = require('workbox-routing');
 const { CacheableResponsePlugin } = require('workbox-cacheable-response');
 const { ExpirationPlugin } = require('workbox-expiration');
 const { precacheAndRoute } = require('workbox-precaching/precacheAndRoute');
+const { StaleWhileRevalidate } = require('workbox-strategies');
 
 precacheAndRoute(self.__WB_MANIFEST);
 
@@ -27,8 +28,19 @@ warmStrategyCache({
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
 registerRoute( // Asset caching rules for our service worker
-  ({ request }) => ['style', 'script', 'worker', 'image'].includes(request.destination),
-  new CacheFirst({
+  ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
+  new StaleWhileRevalidate({
+    // Name of the cache storage.
+    cacheName: 'asset-cache',
+    plugins: [
+      // This plugin will cache responses with these headers to a maximum-age of 30 days
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+  
+  /* new CacheFirst({
     cacheName:'asset-cache',
     plugins: [
       new CacheableResponsePlugin({
@@ -38,5 +50,5 @@ registerRoute( // Asset caching rules for our service worker
         maxAgeSeconds: 30 * 24 * 60 * 60
       })
     ]
-  })
+  }) */
 );

@@ -15,22 +15,24 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      new HtmlWebpackPlugin({ // Generates the dist folder for the text editor PWA
+      new HtmlWebpackPlugin({ // Generates the html file and injects our bundles.
         template: './index.html',
-        title: 'webpack plugin'
+        title: 'JATE'
       }),
       new InjectManifest({ // Service workers
         swSrc: './src-sw.js',
         swDest: 'src-sw.js'
       }),
       new WebpackPwaManifest({ // PWA Install module
+        fingerprints: false,
+        inject: true,
         name: 'Just Another Text Editor',
         short_name: 'J.A.T.E',
-        description: 'Just Another Text Editor - Edit text in Javascript, stored locally!',
+        description: 'Just Another Text Editor Edit text in Javascript, stored locally!',
         background_color: '#225ca3',
         theme_color: '#225ca3', 
-        start_url: '/',
-        publicPath: '/',
+        start_url: './',
+        publicPath: './',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
@@ -48,7 +50,7 @@ module.exports = () => {
           use: ['style-loader', 'css-loader'],
         },
         {
-          test: /\.m?js$/, // Bundles JS with babel
+          test: /\.m?js$/, // Bundles JS with babel in order to use ES6
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
@@ -57,10 +59,6 @@ module.exports = () => {
               plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
             },
           },
-        },
-        {
-          test: /[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/, // Bundles images
-          type: 'asset/resource'
         },
       ],
     },
