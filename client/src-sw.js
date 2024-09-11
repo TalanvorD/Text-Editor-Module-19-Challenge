@@ -39,16 +39,4 @@ registerRoute( // Asset caching rules for our service worker
       }),
     ],
   })
-  
-  /* new CacheFirst({
-    cacheName:'asset-cache',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-      new ExpirationPlugin({
-        maxAgeSeconds: 30 * 24 * 60 * 60
-      })
-    ]
-  }) */
 );

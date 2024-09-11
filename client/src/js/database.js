@@ -31,8 +31,12 @@ export const getDb = async () => { // Gets the content from the jate database
     const store = tx.objectStore('jate');
     const request = store.get(1);
     const result = await request;
-    console.log('result.value', result);
-    return result;
+    if (!result) {
+      return;
+    } else { 
+      console.log('result.value', result);
+      return result.content;
+    };
 };
 
 initdb();
